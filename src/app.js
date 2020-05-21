@@ -70,16 +70,14 @@ app.delete("/repositories/:id", (request, response) => {
 app.post("/repositories/:id/like", (request, response) => {
   const { id } = request.params
 
-  const seachRepository = repositories.findIndex(repos => repos.id === id)
+  const findRepository = repositories.find(repository => repository.id === id)
   
-  if(seachRepository < 0)
-    return response.status(400).json({ error: 'repository not found'})
+  if(!findRepository)
+    return response.status(400).json({ error: 'repository does not exits'})
 
-  const respository = repositories[seachRepository]
+    findRepository.likes++
 
-  respository.likes++
-
-  return response.json(respository)
+  return response.json(findRepository)                                                                                                                                 
 });
 
 module.exports = app;
